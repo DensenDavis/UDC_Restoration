@@ -1,2 +1,1 @@
-# PDCRN
-PDCRN architecture for Under-display camera image restoration
+Deep Learning based solutions for under-display camera image restoration
