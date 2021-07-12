@@ -1,16 +1,19 @@
 import tensorflow as tf
 from custom_layers import Space2Depth, Depth2Space, DWT, IWT
-from tensorflow.keras.layers import Add, Conv2D, Conv2DTranspose, Concatenate, Lambda
+from tensorflow.keras.layers import Add, Conv2D, Conv2DTranspose, Concatenate, Lambda, ReLU
 from config import Configuration
 cfg = Configuration()
 
 
 def dilation_pyramid(x_in, filters, dilation_rates):
     x_in = Conv2D(filters*2, 3, padding='same')(x_in)
+    x_in = ReLU(x_in)
     for dil_rate in dilation_rates:
         x_out = Conv2D(filters, 3, padding='same', dilation_rate=dil_rate)(x_in)
+        x_out = ReLU(x_out)
         x_in = Concatenate(axis=-1)([x_in, x_out])
     x_out = Conv2D(filters, 1, padding='same')(x_in)
+    x_out = ReLU(x_out)
     return x_out
 
 
